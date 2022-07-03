@@ -30,6 +30,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<RetoContpaqiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ContpaqiConnection")));
 
+
 var app = builder.Build();
 
 //Crea la base de datos

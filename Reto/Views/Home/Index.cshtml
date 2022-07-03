@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model HomeViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="card">
+    <h5 class="card-header">
+        <a class="btn btn-info" role="button">Buscar</a>
+        <a class="btn btn-warning" role="button">Actualizar</a>
+        <a class="btn btn-primary" role="button" asp-controller="Employee" asp-action="Index">
+            Crear
+        </a>
+    </h5>
+    @if (Model.Employees.Any())
+    {
+        @foreach (var employee in Model.Employees)
+        {
+            <partial name="_EmployeeCard" model="employee" />
+        }
+    }
+    else
+    {
+        <div class="card-body">
+            <p>No hay información</p>
+        </div>
+    }
 </div>

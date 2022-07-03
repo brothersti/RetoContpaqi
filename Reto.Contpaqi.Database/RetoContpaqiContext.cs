@@ -10,12 +10,12 @@ namespace Reto.Contpaqi.Database
 
         }
 
-        public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Employee> Empleados { get; set; }
         public DbSet<Direccion> Direccions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Empleado>().ToTable("Empleado");
+            builder.Entity<Employee>().ToTable("Empleado");
             builder.Entity<Direccion>().ToTable("Direccion");
         }
     }
