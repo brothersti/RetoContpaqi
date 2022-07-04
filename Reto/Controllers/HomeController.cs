@@ -21,5 +21,51 @@ namespace Reto.Contpaqi.Web.Controllers
             };
             return View(homeViewModel);
         }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var employee = _employeeRepository.GetById(id);
+            if(employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
+        }
+
+        [HttpPost]
+        public ActionResult Details(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                _employeeRepository.Update(employee);
+                return RedirectToAction("Details", new {id = employee.EmpleadoId});
+            }
+
+            return View(employee);
+        }
+
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            _employeeRepository.Delete(id);
+            return RedirectToAction("Index", "Home");
+            //var employee = _employeeRepository.GetById(id);
+            //if (employee == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(employee);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Employee employee)
+        {
+            _employeeRepository.Delete(employee.EmpleadoId);
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

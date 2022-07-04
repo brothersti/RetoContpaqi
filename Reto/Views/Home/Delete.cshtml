@@ -1,21 +1,10 @@
 ﻿@model Employee
 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
 
-<tr>
-    <th scope="row">@Model.EmpleadoId</th>
-    <td>@Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</td>
-    <td>@Model.Email</td>
-    <td>@Model.Puesto</td>
-    <td>@Model.Rfc</td>
-    <td>@Model.FechaAlta.ToString("d")</td>
-
-    <td>
-        @Html.ActionLink("Editar","Details", new{id = @Model.EmpleadoId} ) |
-        @Html.ActionLink("Delete","Delete", new{id = @Model.EmpleadoId}, new{onclick = "return confirm(Are you sure?)"})
-
-    </td>
-</tr>
-
+<!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

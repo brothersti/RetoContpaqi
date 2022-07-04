@@ -73,7 +73,9 @@
             try
             {
                 var employeeSelected = _appDbContext.Employees.SingleOrDefault(e => e.EmpleadoId == id);
-                var res = _appDbContext.Employees.Remove(employeeSelected);
+                var res = _appDbContext.Employees.Update(employeeSelected);
+                _appDbContext.SaveChanges();
+
                 return res != null;
             }
             catch (Exception)
@@ -98,9 +100,29 @@
             throw new NotImplementedException();
         }
 
-        public Employee Update(int id)
+        public void Update(Employee employee)
         {
-            throw new NotImplementedException();
+           var existing = GetById(employee.EmpleadoId);
+            if(existing != null)
+            {
+                existing.Email   = employee.Email;
+                existing.Telefono = employee.Telefono;
+                existing.Puesto = employee.Puesto;
+                existing.FechaBaja = employee.FechaBaja;
+                existing.EstadoCivilId = employee.EstadoCivilId;
+                existing.Direccion = new Direccion
+                {
+                    Calle = employee.Direccion.Calle,
+                    NumeroExterior = employee.Direccion.NumeroExterior,
+                    NumeroInterior = employee.Direccion.NumeroInterior,
+                    CodigoPostal = employee.Direccion.CodigoPostal,
+                    Estado = employee.Direccion.Estado,
+                    Municipio = employee.Direccion.Municipio,
+                    Pais = employee.Direccion.Pais
+                };
+
+                _appDbContext.SaveChanges();
+            }
         }
     }
 }

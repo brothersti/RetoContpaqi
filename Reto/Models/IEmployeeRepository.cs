@@ -5,7 +5,7 @@
         IEnumerable<Employee> AllEmployees();
         Employee GetById(int id);
         void Create(Employee employee);
-        Employee Update(int id);
+        void Update(Employee employee);
         bool Delete(int id);
         Employee GetEmployee(string filter);
     }

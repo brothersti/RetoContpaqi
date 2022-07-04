@@ -17,14 +17,6 @@ namespace Reto.Contpaqi.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Details(int id)
-        {
-            //var employee = _employeeRepository.GetById(id);
-            return RedirectToAction("Index", "Home");
-        }
-   
-
-        [HttpPost]
         public IActionResult Create(Employee request)
         {
             if (ModelState.IsValid)
@@ -35,13 +27,6 @@ namespace Reto.Contpaqi.Web.Controllers
             }
 
             return View("Index");
-        }
-
-        [HttpPost]
-        public IActionResult Delete(int id)
-        {
-            _employeeRepository.Delete(id);
-            return RedirectToAction("Index", "Home");
-        }        
+        }               
     }
 }
