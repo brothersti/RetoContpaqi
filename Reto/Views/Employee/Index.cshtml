@@ -3,51 +3,49 @@
 <form asp-action="Create" method="post" role="form" class="row g-3 needs-validation" novalidate>
     <h3><b>Información personales</b></h3>
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
     <div class="col-md-4">
         <label asp-for="Nombre" class="form-label">Nombre</label>
-        <input asp-for="Nombre" type="text" class="form-control">
-        <span asp-validation-for="Nombre"  class="text-danger"></span>
+        <input asp-for="Nombre" type="text" class="form-control" >
+        <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="ApellidoPaterno" class="form-label">Apellido paterno</label>
         <input asp-for="ApellidoPaterno" type="text" class="form-control">
-        <span asp-validation-for="ApellidoPaterno"  class="text-danger"></span>
+        <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
     </div>
     <div class="col-md-4">
         <label asp-for="ApellidoMaterno" class="form-label">Apellido materno</label>
         <input asp-for="ApellidoMaterno" type="text" class="form-control">
-        <span asp-validation-for="ApellidoMaterno"  class="text-danger"></span>
+        <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="Edad" class="form-label">Edad</label>
         <input asp-for="Edad" type="number" class="form-control">
-       <span asp-validation-for="Edad"  class="text-danger"></span>
+        <span asp-validation-for="Edad" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
         <input type="date" class="form-control" asp-for="FechaNacimiento">
-       <span asp-validation-for="FechaNacimiento"  class="text-danger"></span>
+        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
-        <label asp-for="Genero.GeneroId" class="form-label">Genéro</label>
-        <select class="custom-select form-control">
+        <label asp-for="GeneroId" class="form-label">Genéro</label>
+        <select class="custom-select form-control" asp-for="GeneroId">
             <option selected>Selecciona una opcion</option>
             <option value="1">Hombre</option>
             <option value="2">Mujer</option>
             <option value="3">Otro</option>
         </select>
-       <span asp-validation-for="Genero.GeneroId"  class="text-danger"></span>
+        <span asp-validation-for="GeneroId" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
-        <label asp-for="EstadoCivil.EstadoCivilId" class="form-label">Estado civil</label>
-        <select class="custom-select form-control">
+        <label asp-for="EstadoCivilId" class="form-label">Estado civil</label>
+        <select class="custom-select form-control" asp-for="EstadoCivilId">
             <option selected>Selecciona una opcion</option>
             <option value="1">Casado</option>
             <option value="2">Divorciado</option>
@@ -55,42 +53,42 @@
             <option value="4">UnionLibre</option>
             <option value="5">Viudo</option>
         </select>
-       <span asp-validation-for="EstadoCivil.EstadoCivilId"  class="text-danger"></span>
+        <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="Rfc" class="form-label">Rfc</label>
         <input asp-for="Rfc" type="text" class="form-control">
-       <span asp-validation-for="Rfc"  class="text-danger"></span>
+        <span asp-validation-for="Rfc" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="Email" class="form-label">Email</label>
         <input asp-for="Email" type="text" class="form-control">
-       <span asp-validation-for="Email"  class="text-danger"></span>
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="Telefono" class="form-label">Teléfono</label>
         <input asp-for="Telefono" type="text" class="form-control">
-        <span asp-validation-for="Telefono"  class="text-danger"></span>
+        <span asp-validation-for="Telefono" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="Puesto" class="form-label">Puesto</label>
         <input asp-for="Puesto" type="text" class="form-control">
-        <span asp-validation-for="Puesto"  class="text-danger"></span>
+        <span asp-validation-for="Puesto" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
         <label asp-for="FechaAlta" class="form-label">Fecha de alta</label>
         <input asp-for="FechaAlta" type="date" class="form-control">
-        <span asp-validation-for="FechaAlta"  class="text-danger"></span>
+        <span asp-validation-for="FechaAlta" class="text-danger"></span>
     </div>
 
     <div class="col-md-4">
-        <label asp-for="FechaBaja" class="form-label">Fecha de baja</label>
-        <input asp-for="FechaBaja" type="date" class="form-control">
+        <label  class="form-label">Fecha de baja</label>
+        <input  type="date" class="form-control">
     </div>
     <hr />
     <h3><b>Dirección</b></h3>

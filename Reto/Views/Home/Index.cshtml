@@ -10,10 +10,26 @@
     </h5>
     @if (Model.Employees.Any())
     {
-        @foreach (var employee in Model.Employees)
-        {
-            <partial name="_EmployeeCard" model="employee" />
-        }
+
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre completo</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Puesto</th>
+                    <th scope="col">Rfc</th>
+                    <th scope="col">Fecha de alta</th>
+                    <th class="float-right" scope="col">Acciones</th>
+                </tr>
+            </thead>
+            @foreach (var employee in Model.Employees)
+            {
+                <tbody>
+                    <partial name="EmployeeCard" model="employee" />
+                </tbody>
+            }
+        </table>
     }
     else
     {

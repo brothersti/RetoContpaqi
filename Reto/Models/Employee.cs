@@ -25,7 +25,7 @@ namespace Reto.Contpaqi.Web.Models
         public string ApellidoMaterno { get; set; }
 
         [Required]
-        [RegularExpression(pattern: "^[1-9]{3}$", ErrorMessage = "El campo Edad es requerido y puede tener un maximo de 3 carácteres")]
+        [RegularExpression(pattern: "^[1-9]{2}$", ErrorMessage = "El campo Edad es requerido y puede tener un maximo de 3 carácteres")]
         [Display(Name = "Edad")]
         public int Edad { get; set; }
 
@@ -62,7 +62,7 @@ namespace Reto.Contpaqi.Web.Models
         public string Telefono { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [StringLength(12, ErrorMessage = "El campo Puesto es requerido y puede tener un maximo de 12 carácteres")]
+        [StringLength(50, ErrorMessage = "El campo Puesto es requerido y puede tener un maximo de 50 carácteres")]
         [Display(Name = "Puesto")]
         public string Puesto { get; set; }
 

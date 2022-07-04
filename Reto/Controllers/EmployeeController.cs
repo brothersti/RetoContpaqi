@@ -16,10 +16,11 @@ namespace Reto.Contpaqi.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult Details(int id)
         {
-            var employee = _employeeRepository.GetById(id);
-            return View(employee);
+            //var employee = _employeeRepository.GetById(id);
+            return RedirectToAction("Index", "Home");
         }
    
 
@@ -35,5 +36,12 @@ namespace Reto.Contpaqi.Web.Controllers
 
             return View("Index");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _employeeRepository.Delete(id);
+            return RedirectToAction("Index", "Home");
+        }        
     }
 }
