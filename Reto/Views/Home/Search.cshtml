@@ -1,0 +1,26 @@
+﻿  @model Filtro
+
+<form method="post" role="form">
+
+
+    <div class="card">
+        <partial name="_CardHeader" />
+
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <select class="btn btn-outline-primary" style="text-align:left;" asp-for="Opcion">
+                    <option selected>Opción de búsqueda</option>
+                    <option value="Nombre">Nombre</option>
+                    <option value="Rfc">Rfc</option>
+                    <option value="Alta">Labora actualmente</option>
+                    <option value="Baja">Empleado dado de baja</option>
+                </select>
+                <input type="text" class="form-control" asp-for="Texto">
+                <button class="btn btn-outline-primary" asp-action="SearchCompleted" asp-controller="Home" type="submit">Buscar</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+

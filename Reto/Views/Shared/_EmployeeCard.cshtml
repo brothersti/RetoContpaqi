@@ -10,8 +10,8 @@
     <td>@Model.FechaAlta.ToString("d")</td>
 
     <td>
-        @Html.ActionLink("Editar","Details", new{id = @Model.EmpleadoId} ) |
-        @Html.ActionLink("Delete","Delete", new{id = @Model.EmpleadoId}, new{onclick = "return confirm(Are you sure?)"})
+        @Html.ActionLink("Editar","Details", new{id = @Model.EmpleadoId}, new {@class="btn btn-warning"} )
+        @Html.ActionLink("Delete","Delete", new{id = @Model.EmpleadoId}, new {@class="btn btn-danger"})
 
     </td>
 </tr>

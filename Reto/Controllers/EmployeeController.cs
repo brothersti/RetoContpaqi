@@ -21,6 +21,7 @@ namespace Reto.Contpaqi.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                //llamar a la api
                 _employeeRepository.Create(request);
 
                 return RedirectToAction("Index", "Home");

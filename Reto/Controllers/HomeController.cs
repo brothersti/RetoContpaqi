@@ -67,5 +67,18 @@ namespace Reto.Contpaqi.Web.Controllers
             _employeeRepository.Delete(employee.EmpleadoId);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SearchCompleted(Filtro filtro)
+        {
+            var result= _employeeRepository.GetEmployee(filtro.Texto, filtro.Opcion);
+            return View("_SearchCompleted", result);
+        }
     }
 }

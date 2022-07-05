@@ -1,4 +1,4 @@
-﻿namespace Reto.Contpaqi.Web.Models
+﻿namespace Reto.Contpaqi.Api.Models
 {
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -8,12 +8,16 @@
         {
             _appDbContext = appDbContext;
         }
-        public IEnumerable<Employee> AllEmployees()
+        public async Task<IEnumerable<Employee>> AllEmployees()
         {
             try
             {
                 var lst = new List<Employee>();
-                lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 1).ToList();
+
+                await Task.Run(() =>
+                {
+                    lst = _appDbContext.Employees.ToList();
+                });
 
                 if (lst.Any())
                     return lst;
@@ -27,13 +31,12 @@
             }
         }
 
-        public void Create(Employee employee)
+        public bool Create(Employee employee)
         {
             try
             {
                 _appDbContext.Employees.Add(new Employee
                 {
-                    EstatusEmpleado = 1,
                     Nombre = employee.Nombre,
                     ApellidoMaterno = employee.ApellidoMaterno,
                     ApellidoPaterno = employee.ApellidoPaterno,
@@ -57,11 +60,10 @@
                         Municipio = employee.Direccion.Municipio,
                         Pais = employee.Direccion.Pais
                     }
-
-
                 });
 
                 _appDbContext.SaveChanges();
+                return true;
             }
             catch (Exception)
             {
@@ -74,10 +76,6 @@
             try
             {
                 var employeeSelected = _appDbContext.Employees.SingleOrDefault(e => e.EmpleadoId == id);
-
-                employeeSelected.EstatusEmpleado = 0;
-                employeeSelected.FechaBaja = DateTime.Now;
-
                 var res = _appDbContext.Employees.Update(employeeSelected);
                 _appDbContext.SaveChanges();
 
@@ -100,26 +98,44 @@
             return result;
         }
 
-        public IEnumerable<Employee> GetEmployee(string filter, string opcion)
+        /// <summary>
+        /// Método encargado de obtener un empleado mediante un filtro
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="opcion"></param>
+        /// <returns></returns>
+        public async Task<Employee> GetEmployee(string filter, string opcion)
         {
-            var lst = new List<Employee>();
+            var lst = new Employee();
 
             switch (opcion)
             {
                 case "Nombre":
-                    lst = _appDbContext.Employees.Where(e => e.Nombre == filter).ToList();
+                    await Task.Run(() =>
+                     {
+                         lst = _appDbContext.Employees.FirstOrDefault(e => e.Nombre == filter);
+                     });
                     break;
 
                 case "Rfc":
-                    lst = _appDbContext.Employees.Where(e => e.Rfc == filter).ToList();
+                    await Task.Run(() =>
+                    {
+                        lst = _appDbContext.Employees.FirstOrDefault(e => e.Rfc == filter);
+                    });
                     break;
 
                 case "Alta":
-                    lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 1).ToList();
+                    await Task.Run(() =>
+                    {
+                        lst = _appDbContext.Employees.FirstOrDefault(e => e.EstatusEmpleado == 1);
+                    });
                     break;
 
                 case "Baja":
-                    lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 0).ToList();
+                    await Task.Run(() =>
+                    {
+                        lst = _appDbContext.Employees.FirstOrDefault(e => e.EstatusEmpleado == 0);
+                    });
                     break;
 
                 default:
@@ -129,7 +145,7 @@
             return lst;
         }
 
-        public void Update(Employee employee)
+        public bool Update(Employee employee)
         {
             var existing = GetById(employee.EmpleadoId);
             if (existing != null)
@@ -151,7 +167,10 @@
                 };
 
                 _appDbContext.SaveChanges();
+
+                return true;
             }
+            return false;
         }
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Reto.Contpaqi.Database;
+using Reto.Contpaqi.Api.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +27,12 @@ builder.Services.AddSwaggerGen(c =>
 
 
 //Inyecta la conexión
-builder.Services.AddDbContext<RetoContpaqiContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ContpaqiConnection")));
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ContpaqiConnection"));
+});
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 
 var app = builder.Build();

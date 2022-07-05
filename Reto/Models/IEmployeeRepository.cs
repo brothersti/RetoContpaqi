@@ -7,6 +7,6 @@
         void Create(Employee employee);
         void Update(Employee employee);
         bool Delete(int id);
-        Employee GetEmployee(string filter);
+        IEnumerable<Employee> GetEmployee(string filter, string opcion);
     }
 }

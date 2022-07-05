@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Reto.Contpaqi.Web.Models
+namespace Reto.Contpaqi.Api.Models
 {
     public class Employee
     {
@@ -66,11 +66,11 @@ namespace Reto.Contpaqi.Web.Models
         [Display(Name = "Puesto")]
         public string Puesto { get; set; }
 
+        public int EstatusEmpleado { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime FechaAlta { get; set; }
-
-        public int EstatusEmpleado { get; set; }
 
         public DateTime FechaBaja { get; set; }
 
