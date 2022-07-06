@@ -10,5 +10,6 @@ namespace Reto.Contpaqi.Web.Models
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Direccion> Direccion { get; set; }
     }
 }

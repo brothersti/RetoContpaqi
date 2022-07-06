@@ -8,16 +8,12 @@
         {
             _appDbContext = appDbContext;
         }
-        public async Task<IEnumerable<Employee>> AllEmployees()
+        public IEnumerable<Employee> AllEmployees()
         {
             try
             {
                 var lst = new List<Employee>();
-
-                await Task.Run(() =>
-                {
-                    lst = _appDbContext.Employees.ToList();
-                });
+                lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 1).ToList();
 
                 if (lst.Any())
                     return lst;
@@ -37,6 +33,7 @@
             {
                 _appDbContext.Employees.Add(new Employee
                 {
+                    EstatusEmpleado = 1,
                     Nombre = employee.Nombre,
                     ApellidoMaterno = employee.ApellidoMaterno,
                     ApellidoPaterno = employee.ApellidoPaterno,
@@ -60,10 +57,15 @@
                         Municipio = employee.Direccion.Municipio,
                         Pais = employee.Direccion.Pais
                     }
+
+
                 });
 
-                _appDbContext.SaveChanges();
-                return true;
+                var result = _appDbContext.SaveChanges();
+
+                if (result > -1) return true;
+                return false;
+
             }
             catch (Exception)
             {
@@ -76,6 +78,10 @@
             try
             {
                 var employeeSelected = _appDbContext.Employees.SingleOrDefault(e => e.EmpleadoId == id);
+
+                employeeSelected.EstatusEmpleado = 0;
+                employeeSelected.FechaBaja = DateTime.Now;
+
                 var res = _appDbContext.Employees.Update(employeeSelected);
                 _appDbContext.SaveChanges();
 
@@ -92,50 +98,45 @@
             var result = new Employee();
             result = _appDbContext.Employees.FirstOrDefault(e => e.EmpleadoId == id);
 
+            var direccion = _appDbContext.Direccion.FirstOrDefault(d => d.DireccionId == result.DireccionId);
+
+            result.Direccion = new Direccion
+            {
+                Calle = direccion.Calle,
+                Municipio = direccion.Municipio,
+                NumeroExterior = direccion.NumeroExterior,
+                NumeroInterior = direccion.NumeroInterior,
+                Pais = direccion.Pais,
+                CodigoPostal = direccion.CodigoPostal,
+                Estado = direccion.Estado,
+            };
+
             if (result != null)
                 return result;
 
             return result;
         }
 
-        /// <summary>
-        /// Método encargado de obtener un empleado mediante un filtro
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="opcion"></param>
-        /// <returns></returns>
-        public async Task<Employee> GetEmployee(string filter, string opcion)
+        public IEnumerable<Employee> GetEmployee(string filter, string opcion)
         {
-            var lst = new Employee();
+            var lst = new List<Employee>();
 
             switch (opcion)
             {
                 case "Nombre":
-                    await Task.Run(() =>
-                     {
-                         lst = _appDbContext.Employees.FirstOrDefault(e => e.Nombre == filter);
-                     });
+                    lst = _appDbContext.Employees.Where(e => e.Nombre == filter).ToList();
                     break;
 
                 case "Rfc":
-                    await Task.Run(() =>
-                    {
-                        lst = _appDbContext.Employees.FirstOrDefault(e => e.Rfc == filter);
-                    });
+                    lst = _appDbContext.Employees.Where(e => e.Rfc == filter).ToList();
                     break;
 
                 case "Alta":
-                    await Task.Run(() =>
-                    {
-                        lst = _appDbContext.Employees.FirstOrDefault(e => e.EstatusEmpleado == 1);
-                    });
+                    lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 1).ToList();
                     break;
 
                 case "Baja":
-                    await Task.Run(() =>
-                    {
-                        lst = _appDbContext.Employees.FirstOrDefault(e => e.EstatusEmpleado == 0);
-                    });
+                    lst = _appDbContext.Employees.Where(e => e.EstatusEmpleado == 0).ToList();
                     break;
 
                 default:
@@ -166,9 +167,8 @@
                     Pais = employee.Direccion.Pais
                 };
 
-                _appDbContext.SaveChanges();
-
-                return true;
+                var result = _appDbContext.SaveChanges();
+                if (result > -1) return true;
             }
             return false;
         }

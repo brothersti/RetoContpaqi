@@ -37,6 +37,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
+app.UseDeveloperExceptionPage();
 //Crea la base de datos
 //using (var scope = app.Services.CreateScope())
 //{
@@ -47,9 +48,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSwaggerUI();
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 

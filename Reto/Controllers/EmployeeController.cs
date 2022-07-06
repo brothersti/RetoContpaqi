@@ -5,11 +5,8 @@ namespace Reto.Contpaqi.Web.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(IEmployeeRepository employeeRepository)
-        {
-            _employeeRepository = employeeRepository;
-        }
+        readonly HttpClient client = new HttpClient();
+        readonly string urlBase = "https://localhost:7297/api/Empleado/";
 
         public ViewResult Index()
         {
@@ -22,7 +19,8 @@ namespace Reto.Contpaqi.Web.Controllers
             if (ModelState.IsValid)
             {
                 //llamar a la api
-                _employeeRepository.Create(request);
+                HttpResponseMessage response =  client.PostAsJsonAsync($"{urlBase}AgregarEmpleado", request).Result;
+                response.EnsureSuccessStatusCode();
 
                 return RedirectToAction("Index", "Home");
             }

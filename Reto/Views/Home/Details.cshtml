@@ -1,14 +1,148 @@
 ﻿@model Employee
 
-<h2>@Model.Nombre</h2>
+<form asp-action="Details" method="post" role="form" class="row g-3 needs-validation" novalidate>
+    <h3><b>Actualizar información personales</b></h3>
+     <input asp-for="EmpleadoId" type="text" class="form-control" hidden >
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Descripción</h5>
-        <p class="card-text">@Model.Nombre</p>
-        <p class="card-text">@Model.ApellidoPaterno</p>
-        <p class="card-text">@Model.ApellidoMaterno</p>
-        <p class="card-text">@Model.Email</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="col-md-4">
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" type="text" class="form-control" readonly >
+        <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
-</div>
+
+    <div class="col-md-4">
+        <label asp-for="ApellidoPaterno" class="form-label">Apellido paterno</label>
+        <input asp-for="ApellidoPaterno" type="text" class="form-control" readonly>
+        <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="ApellidoMaterno" class="form-label">Apellido materno</label>
+        <input asp-for="ApellidoMaterno" type="text" class="form-control" readonly>
+        <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Edad" class="form-label">Edad</label>
+        <input asp-for="Edad" type="number" class="form-control" readonly>
+        <span asp-validation-for="Edad" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
+        <input type="date" class="form-control" asp-for="FechaNacimiento" readonly>
+        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="GeneroId" class="form-label">Genéro</label>
+        <select class="custom-select form-control" asp-for="GeneroId" readonly>
+            <option selected>Selecciona una opcion</option>
+            <option value="1">Hombre</option>
+            <option value="2">Mujer</option>
+            <option value="3">Otro</option>
+        </select>
+        <span asp-validation-for="GeneroId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="EstadoCivilId" class="form-label">Estado civil</label>
+        <select class="custom-select form-control" asp-for="EstadoCivilId">
+            <option selected>Selecciona una opcion</option>
+            <option value="1">Casado</option>
+            <option value="2">Divorciado</option>
+            <option value="3">Soltero</option>
+            <option value="4">UnionLibre</option>
+            <option value="5">Viudo</option>
+        </select>
+        <span asp-validation-for="EstadoCivilId" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Rfc" class="form-label">Rfc</label>
+        <input asp-for="Rfc" type="text" class="form-control" readonly>
+        <span asp-validation-for="Rfc" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" type="text" class="form-control">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Telefono" class="form-label">Teléfono</label>
+        <input asp-for="Telefono" type="text" class="form-control">
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Puesto" class="form-label">Puesto</label>
+        <input asp-for="Puesto" type="text" class="form-control">
+        <span asp-validation-for="Puesto" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="FechaAlta" class="form-label">Fecha de alta</label>
+        <input asp-for="FechaAlta" type="date" class="form-control" readonly>
+        <span asp-validation-for="FechaAlta" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label  class="form-label">Fecha de baja</label>
+        <input  type="date" class="form-control">
+    </div>
+    <hr />
+    <h3><b>Dirección</b></h3>
+
+    <div class="col-md-4">
+        <label asp-for="Direccion.Calle" class="form-label">Calle</label>
+        <input asp-for="Direccion.Calle" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Direccion.NumeroInterior" class="form-label">Número Interior</label>
+        <input asp-for="Direccion.NumeroInterior" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Direccion.NumeroExterior" class="form-label">Número exterior</label>
+        <input asp-for="Direccion.NumeroExterior" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Direccion.CodigoPostal" class="form-label">Código postal</label>
+        <input asp-for="Direccion.CodigoPostal" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Direccion.Municipio" class="form-label">Municipio</label>
+        <input asp-for="Direccion.Municipio" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Direccion.Estado" class="form-label">Estado</label>
+        <input asp-for="Direccion.Estado" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Direccion.Pais" class="form-label">País</label>
+        <input asp-for="Direccion.Pais" type="text" class="form-control">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="col-12">
+        
+        <button class="btn btn-warning" type="submit" asp-controller="Home" asp-action="Details">
+            Actualizar
+        </button>
+        <button class="btn btn-danger" type="submit" asp-controller="Home" asp-action="Index">
+            Cancelar
+        </button>
+    </div>
+</form>

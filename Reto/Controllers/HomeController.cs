@@ -1,70 +1,73 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reto.Contpaqi.Web.Models;
 using Reto.Contpaqi.Web.ViewModels;
+using System.Text.Json;
 
 namespace Reto.Contpaqi.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        readonly HttpClient client = new();
+        readonly string urlBase = "https://localhost:7297/api/Empleado/";
 
-        public HomeController(IEmployeeRepository employeRepository)
+        public async Task<IActionResult> Index()
         {
-            _employeeRepository = employeRepository;
-        }
+            var homeViewModel = new HomeViewModel();
 
-        public IActionResult Index()
-        {
-            var homeViewModel = new HomeViewModel()
-            {
-                Employees = _employeeRepository.AllEmployees()
-            };
+            var response = await client.GetAsync($"{urlBase}GetAllEmployees");
+            response.EnsureSuccessStatusCode();
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseObject = await JsonSerializer.DeserializeAsync<List<Employee>>(responseStream,
+                                                                            new JsonSerializerOptions
+                                                                            {
+                                                                                IgnoreNullValues = true,
+                                                                                PropertyNameCaseInsensitive = true
+                                                                            });
+
+            homeViewModel.Employees = responseObject;
+
             return View(homeViewModel);
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var employee = _employeeRepository.GetById(id);
-            if(employee == null)
-            {
-                return NotFound();
-            }
-
+            HttpResponseMessage response = await client.GetAsync($"{urlBase}GetEmployee?id={id}");
+            response.EnsureSuccessStatusCode();
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var employee = await JsonSerializer.DeserializeAsync<Employee>(responseStream,
+                                                                            new JsonSerializerOptions
+                                                                            {
+                                                                                IgnoreNullValues = true,
+                                                                                PropertyNameCaseInsensitive = true
+                                                                            });
             return View(employee);
         }
 
         [HttpPost]
-        public ActionResult Details(Employee employee)
+        public async Task<ActionResult> Details(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _employeeRepository.Update(employee);
-                return RedirectToAction("Details", new {id = employee.EmpleadoId});
+                var postResponse = await client.PutAsJsonAsync($"{urlBase}ActualizarEmpleado", employee);
+
+                postResponse.EnsureSuccessStatusCode();
+
+                return RedirectToAction("Index", "Home");
             }
 
             return View(employee);
         }
 
 
+
         [HttpGet]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _employeeRepository.Delete(id);
-            return RedirectToAction("Index", "Home");
-            //var employee = _employeeRepository.GetById(id);
-            //if (employee == null)
-            //{
-            //    return NotFound();
-            //}
+            var postResponse = await client.DeleteAsync($"{urlBase}EliminarEmpleado?id={id}");
 
-            //return View(employee);
-        }
+            postResponse.EnsureSuccessStatusCode();
 
-        [HttpPost]
-        public IActionResult Delete(Employee employee)
-        {
-            _employeeRepository.Delete(employee.EmpleadoId);
             return RedirectToAction("Index", "Home");
         }
 
@@ -75,10 +78,19 @@ namespace Reto.Contpaqi.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SearchCompleted(Filtro filtro)
+        public async Task<IActionResult> SearchCompleted(Filtro filtro)
         {
-            var result= _employeeRepository.GetEmployee(filtro.Texto, filtro.Opcion);
-            return View("_SearchCompleted", result);
+            HttpResponseMessage response = await client.GetAsync($"{urlBase}BuscarEmpleado?texto={filtro.Texto}&opcion={filtro.Opcion}");
+            response.EnsureSuccessStatusCode();
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            var employee = await JsonSerializer.DeserializeAsync<List<Employee>>(responseStream,
+                                                                            new JsonSerializerOptions
+                                                                            {
+                                                                                IgnoreNullValues = true,
+                                                                                PropertyNameCaseInsensitive = true
+                                                                            });
+           
+            return View("_SearchCompleted", employee);
         }
     }
 }

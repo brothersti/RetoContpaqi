@@ -94,6 +94,19 @@
             var result = new Employee();
             result = _appDbContext.Employees.FirstOrDefault(e => e.EmpleadoId == id);
 
+            var direccion = _appDbContext.Direccion.FirstOrDefault(d => d.DireccionId == result.DireccionId);
+
+            result.Direccion = new Direccion
+            {
+                Calle = direccion.Calle,
+                Municipio = direccion.Municipio,
+                NumeroExterior = direccion.NumeroExterior,
+                NumeroInterior = direccion.NumeroInterior,
+                Pais = direccion.Pais,
+                CodigoPostal = direccion.CodigoPostal,
+                Estado = direccion.Estado,
+            };
+
             if (result != null)
                 return result;
 

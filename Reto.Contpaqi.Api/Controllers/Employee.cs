@@ -1,15 +1,11 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Reto.Contpaqi.Api.Models;
 
 namespace Reto.Contpaqi.Api.Controllers
 {
-    /// <summary>
-    /// Controlador empleado
-    /// </summary>
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/[Controller]")]
-    public class EmpleadoController : ControllerBase
+    public class Empleado : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -17,7 +13,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// Constructor de la clase
         /// </summary>
         /// <param name="employeeRepository">cadena de conexión</param>
-        public EmpleadoController(IEmployeeRepository employeeRepository)
+        public Empleado(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
@@ -26,14 +22,28 @@ namespace Reto.Contpaqi.Api.Controllers
         /// <summary>
         /// Método encargado de obtener los empleados
         /// </summary>
-        /// <returns>Empleados</returns>       
-        //public ActionResult GetAllEmployees()
-        //{
-        //    var response = _employeeRepository.AllEmployees();
-        //    if (response == null) { return NoContent(); }
+        /// <returns>Empleados</returns>   
+        [HttpGet("GetAllEmployees")]
+        public ActionResult GetAllEmployees()
+        {
+            var response = _employeeRepository.AllEmployees();
+            if (response == null) { return NoContent(); }
 
-        //    return Ok(response);
-        //}
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Método encargado de obtener un empleado
+        /// </summary>
+        /// <returns>Empleados</returns>   
+        [HttpGet("GetEmployee")]
+        public ActionResult GetEmployee(int id)
+        {
+            var response = _employeeRepository.GetById(id);
+            if (response == null) { return NoContent(); }
+
+            return Ok(response);
+        }
 
         /// <summary>
         /// Método encargado de buscar un empleado por filtro
@@ -41,7 +51,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// <param name="texto">Filtro</param>
         /// <param name="opcion"></param>
         /// <returns>Empleado</returns>
-        [HttpGet]
+        [HttpGet("BuscarEmpleado")]
         public ActionResult BuscarEmpleado(string texto, string opcion)
         {
             if (string.IsNullOrEmpty(texto) && string.IsNullOrEmpty(opcion)) return BadRequest();
@@ -60,7 +70,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("AgregarEmpleado")]
         public ActionResult AddEmployee(Employee request)
         {
             if (ModelState.IsValid)
@@ -79,7 +89,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPut("ActualizarEmpleado")]
         public ActionResult UpdateEmployee(Employee request)
         {
             if (ModelState.IsValid)
@@ -96,7 +106,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpDelete("EliminarEmpleado")]
         public ActionResult DeleteEmpployee(int id)
         {
             if (id <= 0) return BadRequest();
@@ -109,7 +119,7 @@ namespace Reto.Contpaqi.Api.Controllers
         /// Prueba
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("Prueba")]
         public ActionResult Prueba()
         {
             return Ok();
